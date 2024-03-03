@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "yTnu9WRABgPuoJkpzQ8VdQHDNClPmrqD8OTGf5Lps1siENW3f64Kj+wtg8ZgHczWi6qzgn5E1gnh6jzMWTgDjw==",
+  "dgSpecHash": "SDikosTVYfPlyMK2osXdyCatfFZMxjS+i3d13Cw0j0gcKeDr9wnfpNiA0nXzTmtyDFR8MhYFLpUhKeguS0bG1g==",
   "success": true,
   "projectFilePath": "C:\\Learning Folder\\React\\FinShark\\api\\api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\quang\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\quang\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\quang\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\quang\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

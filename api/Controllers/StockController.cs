@@ -1,4 +1,6 @@
 ﻿using api.Data;
+using api.DTOs.StockDTO;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -7,17 +9,19 @@ namespace api.Controllers;
 [ApiController]
 public class StockController : ControllerBase
 {
+    private readonly IMapper _mapper;
     private readonly ApplicationDBContext _context;
 
-    public StockController(ApplicationDBContext context)
+    public StockController(IMapper mapper ,ApplicationDBContext context)
     {
+        _mapper = mapper;
         _context = context;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var stocks = _context.Stocks.ToList();
+        var stocks = _context.Stocks.ToList().Select(s => _mapper.Map<StockDTO>(s));
 
         return Ok(stocks);
     }
@@ -30,6 +34,6 @@ public class StockController : ControllerBase
         if (stock is null)
             return NotFound();
 
-        return Ok(stock);
+        return Ok(_mapper.Map<StockDTO>(stock));
     }
 }
