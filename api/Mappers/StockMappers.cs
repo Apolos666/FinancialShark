@@ -5,7 +5,7 @@ namespace api.Mappers;
 
 public static class StockMappers
 {
-    public static StockDTO toStockDTO(this Stock stockModel)
+    public static StockDTO ToStockDTO(this Stock stockModel)
     {
         return new StockDTO
         {
@@ -16,6 +16,19 @@ public static class StockMappers
             LastDiv = stockModel.LastDiv,
             Industry = stockModel.Industry,
             MarketCap = stockModel.MarketCap
+        };
+    }
+    
+    public static Stock ToStockFromCreateStockRequestDTO(this CreateStockRequestDTO createStockRequestDTO)
+    {
+        return new Stock
+        {
+            Symbol = createStockRequestDTO.Symbol,
+            CompanyName = createStockRequestDTO.CompanyName,
+            Purchase = createStockRequestDTO.Purchase,
+            LastDiv = createStockRequestDTO.LastDiv,
+            Industry = createStockRequestDTO.Industry,
+            MarketCap = createStockRequestDTO.MarketCap
         };
     }
 }

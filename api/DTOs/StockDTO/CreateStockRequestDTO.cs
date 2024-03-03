@@ -1,8 +1,7 @@
 ﻿namespace api.DTOs.StockDTO;
 
-public class StockDTO
+public class CreateStockRequestDTO
 {
-    public int Id { get; set; }
     public string Symbol { get; set; } = string.Empty;
     public string CompanyName { get; set; } = string.Empty;
     public decimal Purchase { get; set; }

@@ -9,5 +9,7 @@ public class StockAutoMappers : Profile
     public StockAutoMappers()
     {
         CreateMap<Stock, StockDTO>();
+        CreateMap<CreateStockRequestDTO, Stock>();
+        CreateMap<UpdateStockRequestDTO, Stock>();
     }
 }
