@@ -1,11 +1,9 @@
-﻿using api.Data;
-using api.DTOs.StockDTO;
+﻿using api.DTOs.StockDTO;
+using api.Helpers;
 using api.Interfaces;
-using api.Mappers;
 using api.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers;
 
@@ -23,12 +21,12 @@ public class StockController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
         
-        var stocks = await _stockRepository.GetAllAsync();
+        var stocks = await _stockRepository.GetAllAsync(query);
             
         var stocksDTO = stocks.Select(s => _mapper.Map<StockDTO>(s));
 
