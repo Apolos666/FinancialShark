@@ -1,7 +1,9 @@
 ﻿using api.DTOs.CommentDTO;
+using api.Extensions;
 using api.Interfaces;
 using api.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -10,12 +12,14 @@ namespace api.Controllers;
 [ApiController]
 public class CommentController : ControllerBase
 {
+    private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
     private readonly ICommentRepository _commentRepository;
     private readonly IStockRepository _stockRepository;
 
-    public CommentController(IMapper mapper, ICommentRepository commentRepository, IStockRepository stockRepository)
+    public CommentController(UserManager<AppUser> userManager,IMapper mapper, ICommentRepository commentRepository, IStockRepository stockRepository)
     {
+        _userManager = userManager;
         _mapper = mapper;
         _commentRepository = commentRepository;
         _stockRepository = stockRepository;
@@ -57,11 +61,15 @@ public class CommentController : ControllerBase
             return BadRequest(ModelState);
         
         if (!await _stockRepository.StockExists(stockId))
-            return BadRequest("Stock does not exist");
+            return BadRequest("Stock does not exist");  
+        
+        var userName = User.GetUserName();
+        var appUser = await _userManager.FindByNameAsync(userName);
         
         var commentModel = _mapper.Map<Comment>(createCommentDTO);
         
         commentModel.StockId = stockId;
+        commentModel.AppUserId = appUser.Id;
         
         await _commentRepository.CreateAsync(commentModel);
         

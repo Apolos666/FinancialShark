@@ -8,7 +8,9 @@ public class CommentAutoMappers : Profile
 {
     public CommentAutoMappers()
     {
-        CreateMap<Comment, CommentDTO>();
+        CreateMap<Comment, CommentDTO>()
+            .ForMember(dest => dest.UserName, 
+                opt => opt.MapFrom(src => src.AppUser.UserName));
         CreateMap<CreateCommentDTO, Comment>();
         CreateMap<UpdateCommentDTO, Comment>();
     }

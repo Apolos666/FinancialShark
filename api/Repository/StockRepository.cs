@@ -23,6 +23,7 @@ public class StockRepository : IStockRepository
     {
         var stocksQuery = _context.Stocks
             .Include(c => c.Comments)
+            .ThenInclude(c => c.AppUser)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(queryObject.CompanyName))
