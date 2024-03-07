@@ -11,5 +11,6 @@ public class StockAutoMappers : Profile
         CreateMap<Stock, StockDTO>();
         CreateMap<CreateStockRequestDTO, Stock>();
         CreateMap<UpdateStockRequestDTO, Stock>();
+        CreateMap<FMPStock, Stock>();
     }
 }

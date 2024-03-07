@@ -14,16 +14,19 @@ public class PortfolioController : ControllerBase
     private readonly UserManager<AppUser> _userManager;
     private readonly IStockRepository _stockRepository;
     private readonly IPortfolioRepository _portfolioRepository;
+    private readonly IFMPService _fmpService;
 
     public PortfolioController(
         UserManager<AppUser> userManager, 
         IStockRepository stockRepository,
-        IPortfolioRepository portfolioRepository
+        IPortfolioRepository portfolioRepository,
+        IFMPService fmpService
         )
     {
         _userManager = userManager;
         _stockRepository = stockRepository;
         _portfolioRepository = portfolioRepository;
+        _fmpService = fmpService;
     }
     
     [HttpGet]
@@ -38,14 +41,20 @@ public class PortfolioController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> AddPortfolio(string symbol)
+    public async Task<IActionResult> CreatePortfolio(string symbol)
     {
         var userName = User.GetUserName();
         var appUser = await _userManager.FindByNameAsync(userName);
         var stock = await _stockRepository.GetBySymbolAsync(symbol);
-        
+
         if (stock is null)
-            return BadRequest("Stock not found");
+        {
+            stock = await _fmpService.FindStockBySymbolAsync(symbol);
+            if (stock is null)
+                return BadRequest("Stock does not exist in the database or FMP API.");
+            else
+                await _stockRepository.CreateAsync(stock);
+        }
         
         var userPortfolio = await _portfolioRepository.GetUserPortfolio(appUser);
         
