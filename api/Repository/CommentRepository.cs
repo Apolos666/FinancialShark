@@ -1,5 +1,6 @@
 ﻿using api.Data;
 using api.DTOs.CommentDTO;
+using api.Helpers;
 using api.Interfaces;
 using api.Models;
 using AutoMapper;
@@ -18,11 +19,23 @@ public class CommentRepository : ICommentRepository
         _context = context;
     }
     
-    public async Task<List<Comment>> GetAllAsync()
+    public async Task<List<Comment>> GetAllAsync(CommentQueryObject queryObject)
     {
-        return await _context.Comments
+        var commentQuery = _context.Comments
             .Include(c => c.AppUser)
-            .ToListAsync();
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(queryObject.Symbol))
+        {
+            commentQuery = commentQuery.Where(c => c.Stock.Symbol == queryObject.Symbol);
+        }
+
+        if (queryObject.IsDescending)
+        {
+            commentQuery = commentQuery.OrderByDescending(c => c.CreatedOn);
+        }
+
+        return await commentQuery.ToListAsync();
     }
 
     public async Task<Comment?> GetByIdAsync(int id)
