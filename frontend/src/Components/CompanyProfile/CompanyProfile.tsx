@@ -5,6 +5,7 @@ import {getKeyMetrics} from "../../api";
 import RatioList from "../RatioList/RatioList";
 import Spinner from "../Spinner/Spinner";
 import {formatLargeNonMonetaryNumber, formatRatio} from "../../Helpers/NumberFormatting";
+import {StockComponent} from "../StockComponent/StockComponent";
 
 interface Props {
 };
@@ -96,6 +97,7 @@ const CompanyProfile: React.FC<Props> = (props: Props): JSX.Element => {
             {companyData ? (
                 <div>
                     <RatioList config={tableConfig} data={companyData} />
+                    <StockComponent stockSymbol={ticket} />
                 </div>
             ) : (
                 <Spinner />
